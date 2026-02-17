@@ -1,0 +1,95 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+    id 'jvm-test-suite'
+}
+
+application.mainClass = 'it.unimi.di.sweng.esame.Main'
+
+javafx {
+    version = '23' //va bene anche per JDK21
+    modules = [ 'javafx.graphics','javafx.controls', 'javafx.swing']
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    mockitoAgent
+}
+
+testing.suites {
+    configureEach {
+        dependencies { implementation project() }
+        useJUnitJupiter('6.0.1')
+        targets {
+            configureEach {
+                testTask.configure {
+                    testLogging {
+                        exceptionFormat = 'full'
+                        showStandardStreams = true
+                        events "passed", "skipped", "failed"
+                    }
+                }
+            }
+        }
+    }
+
+    test {
+        targets {
+            configureEach {
+                testTask.configure {
+                    jvmArgs += "-javaagent:${configurations.mockitoAgent.asPath}"
+                }
+            }
+        }}
+
+    integrationTest(JvmTestSuite) {
+        targets {
+            configureEach {
+                testTask.configure {
+                    group = 'verification'
+                    jvmArgs += [
+                            '-Djava.util.logging.config.file=logging.properties'
+                    ]
+                }
+            }
+        }
+    }
+}
+
+
+dependencies {
+    implementation 'org.jetbrains:annotations:26.0.2-1'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:6.0.1'
+    testImplementation 'org.assertj:assertj-core:3.27.6'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.20.0'
+    testImplementation 'org.mockito:mockito-core:5.20.0'
+
+    testImplementation "org.testfx:testfx-junit5:4.0.18"
+    testImplementation 'org.testfx:testfx-core:4.0.18'
+    testImplementation 'org.testfx:openjfx-monocle:21.0.2'
+    testImplementation 'org.hamcrest:hamcrest-core:3.0'
+
+
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    mockitoAgent('org.mockito:mockito-core:5.20.0') {
+        transitive = false
+    }
+}
+
+configurations {
+    integrationTestImplementation.extendsFrom(testImplementation)
+}
+
+
+run {
+    enableAssertions = true
+}
+
+check.dependsOn integrationTest
+integrationTest.mustRunAfter test

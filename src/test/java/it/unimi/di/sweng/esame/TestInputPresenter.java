@@ -9,12 +9,12 @@ import it.unimi.di.sweng.esame.presenter.InputPresenter;
 import it.unimi.di.sweng.esame.presenter.MyInputPresenter;
 import it.unimi.di.sweng.esame.view.InputView;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.Set;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.*;
 
 public class TestInputPresenter {
     @Test
@@ -105,6 +105,18 @@ public class TestInputPresenter {
 
         verify(view).showError("configurazione podio non valida");
         verifyNoMoreInteractions(model);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"G001", ",Biathlon", "G001,", ","})
+    void invalidRaceFieldFormatShowsError(String raceField) {
+        IState model = mock();
+        InputView view = mock();
+        InputPresenter sut = new MyInputPresenter(model, view);
+
+        sut.action1(raceField, "ITA;GER;FRA");
+
+        verify(view).showError("formato gara non valido");
     }
 
 

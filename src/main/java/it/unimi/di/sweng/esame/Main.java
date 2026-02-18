@@ -1,6 +1,17 @@
 package it.unimi.di.sweng.esame;
 
 
+import it.unimi.di.sweng.esame.model.Discipline;
+import it.unimi.di.sweng.esame.model.Model;
+import it.unimi.di.sweng.esame.presenter.MyInputPresenter;
+import it.unimi.di.sweng.esame.presenter.MyOutputPresenter;
+import it.unimi.di.sweng.esame.presenter.NationStatsOrdering;
+import it.unimi.di.sweng.esame.presenter.NationStatsRowFormatter;
+import it.unimi.di.sweng.esame.presenter.SportByMedalOrdering;
+import it.unimi.di.sweng.esame.presenter.SportByNationOrdering;
+import it.unimi.di.sweng.esame.presenter.SportRowFormatter;
+import it.unimi.di.sweng.esame.presenter.SportSelector;
+import it.unimi.di.sweng.esame.presenter.StatsSelector;
 import it.unimi.di.sweng.esame.view.DisplayView;
 import it.unimi.di.sweng.esame.view.InputEsitoGara;
 import javafx.application.Application;
@@ -45,7 +56,20 @@ public class Main extends Application {
         gridPane.add(display3, 0, 2);
         GridPane.setColumnSpan(display3, GridPane.REMAINING);
 
-//TODO
+        Model model = new Model();
+        input.addHandlers(new MyInputPresenter(model, input));
+        model.addObserver(new MyOutputPresenter<>(display1,
+                new SportSelector(Discipline.BIATHLON),
+                new SportByNationOrdering(),
+                new SportRowFormatter()));
+        model.addObserver(new MyOutputPresenter<>(display2,
+                new SportSelector(Discipline.SNOWBOARD),
+                new SportByMedalOrdering(),
+                new SportRowFormatter()));
+        model.addObserver(new MyOutputPresenter<>(display3,
+                new StatsSelector(),
+                new NationStatsOrdering(),
+                new NationStatsRowFormatter()));
 
         Scene scene = new Scene(gridPane);
         primaryStage.setScene(scene);

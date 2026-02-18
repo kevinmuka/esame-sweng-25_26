@@ -19,22 +19,26 @@ public class MyInputPresenter implements InputPresenter {
 
     @Override
     public void action1(@NotNull String text, @NotNull String text1) {
-        // Parse first field
-        String[] parts = text.split(",");
-        String raceId = parts[0];
-        Discipline discipline = Discipline.fromString(parts[1]);
+        try {
+            // Parse first field
+            String[] parts = text.split(",");
+            String raceId = parts[0];
+            Discipline discipline = Discipline.fromString(parts[1]);
 
-        // Parse second field
-        String[] medals = text1.split(";");
-        Set<NationCode> gold = parseGroup(medals[0]);
-        Set<NationCode> silver = parseGroup(medals[1]);
-        Set<NationCode> bronze = medals.length > 2 ? parseGroup(medals[2]) : Set.of();
+            // Parse second field
+            String[] medals = text1.split(";");
+            Set<NationCode> gold = parseGroup(medals[0]);
+            Set<NationCode> silver = parseGroup(medals[1]);
+            Set<NationCode> bronze = medals.length > 2 ? parseGroup(medals[2]) : Set.of();
 
-        Podium podium = new Podium(gold, silver, bronze);
-        Race race = new Race(raceId, discipline, podium);
+            Podium podium = new Podium(gold, silver, bronze);
+            Race race = new Race(raceId, discipline, podium);
 
-        model.insertRace(race);
-        view.showSuccess();
+            model.insertRace(race);
+            view.showSuccess();
+        } catch (IllegalArgumentException e) {
+            view.showError(e.getMessage());
+        }
     }
 
     private static @NotNull Set<NationCode> parseGroup(@NotNull String group) {

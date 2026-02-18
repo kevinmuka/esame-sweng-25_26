@@ -6,6 +6,7 @@ import it.unimi.di.sweng.esame.model.Podium;
 import it.unimi.di.sweng.esame.model.Race;
 import it.unimi.di.sweng.esame.presenter.DataSelector;
 import it.unimi.di.sweng.esame.presenter.SportSelector;
+import it.unimi.di.sweng.esame.presenter.StatsSelector;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -46,6 +47,41 @@ public class TestStrategies {
                 new SportSelector.MedalEntry("G001", Discipline.BIATHLON, new NationCode("FRA"), SportSelector.MedalType.BRONZO)
         );
     }
+
+    @Test
+    void statsSelector_aggregatesMedalsByNation() {
+        DataSelector<StatsSelector.NationStats> sut = new StatsSelector();
+
+        Race r1 = new Race(
+                "G001",
+                Discipline.BIATHLON,
+                new Podium(
+                        Set.of(new NationCode("ITA")),
+                        Set.of(new NationCode("GER")),
+                        Set.of(new NationCode("FRA"))
+                )
+        );
+
+        Race r2 = new Race(
+                "G002",
+                Discipline.SNOWBOARD,
+                new Podium(
+                        Set.of(new NationCode("ITA")),
+                        Set.of(new NationCode("CAN")),
+                        Set.of(new NationCode("GER"))
+                )
+        );
+
+        List<StatsSelector.NationStats> out = sut.select(List.of(r1, r2));
+
+        assertThat(out).contains(
+                new StatsSelector.NationStats(new NationCode("ITA"), 2, 2, 0, 0),
+                new StatsSelector.NationStats(new NationCode("GER"), 2, 0, 1, 1),
+                new StatsSelector.NationStats(new NationCode("FRA"), 1, 0, 0, 1),
+                new StatsSelector.NationStats(new NationCode("CAN"), 1, 0, 1, 0)
+        );
+    }
+
 
 
 }

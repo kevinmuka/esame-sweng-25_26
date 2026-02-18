@@ -11,6 +11,9 @@ public class State implements IState {
 
     @Override
     public void insertRace(@NotNull Race race) {
+        if (races.containsKey(race.raceId())) {
+            throw new IllegalArgumentException("gara già inserita");
+        }
         races.put(race.raceId(), race);
     }
 

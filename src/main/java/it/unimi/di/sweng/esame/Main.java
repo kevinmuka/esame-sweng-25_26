@@ -56,6 +56,20 @@ public class Main extends Application {
         gridPane.add(display3, 0, 2);
         GridPane.setColumnSpan(display3, GridPane.REMAINING);
 
+        Model model = new Model();
+        input.addHandlers(new MyInputPresenter(model, input));
+        model.addObserver(new MyOutputPresenter<>(display1,
+                new SportSelector(Discipline.BIATHLON),
+                new SportByNationOrdering(),
+                new SportRowFormatter()));
+        model.addObserver(new MyOutputPresenter<>(display2,
+                new SportSelector(Discipline.SNOWBOARD),
+                new SportByMedalOrdering(),
+                new SportRowFormatter()));
+        model.addObserver(new MyOutputPresenter<>(display3,
+                new StatsSelector(),
+                new NationStatsOrdering(),
+                new NationStatsRowFormatter()));
 
         Scene scene = new Scene(gridPane);
         primaryStage.setScene(scene);

@@ -82,4 +82,17 @@ public class TestInputPresenter {
         verify(model).insertRace(race);
         verify(view).showSuccess();
     }
+
+    @Test
+    void invalidDisciplineShowsErrorAndDoesNotInsertRace() {
+        IState model = mock();
+        InputView view = mock();
+        InputPresenter sut = new MyInputPresenter(model, view);
+
+        sut.action1("G003,Calcio", "ITA;GER;FRA");
+
+        verify(view).showError("disciplina non valida");
+        verifyNoMoreInteractions(model);
+    }
+
 }

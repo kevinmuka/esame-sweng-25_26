@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -64,6 +65,32 @@ public class TestRecordValidation {
         assertThatThrownBy(() -> new Podium(gold, silver, bronze))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("configurazione podio non valida");
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "1,1,1",
+            "1,1,2",
+            "1,2,0",
+            "1,3,0",
+            "2,0,1",
+            "2,0,2",
+            "3,0,0",
+            "4,0,0"
+    })
+    void testPodiumValidFormats(int goldCount, int silverCount, int bronzeCount) {
+        Set<NationCode> gold = new HashSet<>();
+        Set<NationCode> silver = new HashSet<>();
+        Set<NationCode> bronze = new HashSet<>();
+
+        String[] validCodes = {"ITA", "GER", "FRA", "SWE", "NOR", "USA", "CAN"};
+
+        for (int i = 0; i < goldCount; i++) gold.add(new NationCode(validCodes[i]));
+        for (int i = 0; i < silverCount; i++) silver.add(new NationCode(validCodes[i + 2]));
+        for (int i = 0; i < bronzeCount; i++) bronze.add(new NationCode(validCodes[i + 4]));
+
+        assertThatCode(() -> new Podium(gold, silver, bronze))
+                .doesNotThrowAnyException();
     }
 
 

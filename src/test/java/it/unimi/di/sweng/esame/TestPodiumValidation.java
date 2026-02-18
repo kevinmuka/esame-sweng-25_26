@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class TestRecordValidation {
+public class TestPodiumValidation {
 
     @ParameterizedTest
     @ValueSource(strings = {"ita", "Ita", "Italia", "I"})

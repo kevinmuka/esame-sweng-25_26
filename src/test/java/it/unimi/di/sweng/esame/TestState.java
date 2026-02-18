@@ -1,6 +1,7 @@
 package it.unimi.di.sweng.esame;
 
 import it.unimi.di.sweng.esame.model.IState;
+import it.unimi.di.sweng.esame.model.NationCode;
 import it.unimi.di.sweng.esame.model.Podium;
 import it.unimi.di.sweng.esame.model.Race;
 import it.unimi.di.sweng.esame.model.State;
@@ -17,9 +18,9 @@ public class TestState {
     void insertRace() {
         IState sut = new State();
         Podium podium = new Podium(
-                Set.of("ITA"),
-                Set.of("GER"),
-                Set.of("FRA")
+                Set.of(new NationCode("ITA")),
+                Set.of(new NationCode("GER")),
+                Set.of(new NationCode("FRA"))
         );
         Race race = new Race("G001", "Biathlon", podium);
 
@@ -31,17 +32,17 @@ public class TestState {
     void insertDuplicateRace() {
         IState sut = new State();
         Podium podium1 = new Podium(
-                Set.of("ITA"),
-                Set.of("GER"),
-                Set.of("FRA")
+                Set.of(new NationCode("ITA")),
+                Set.of(new NationCode("GER")),
+                Set.of(new NationCode("FRA"))
         );
         Race race1 = new Race("G001", "Biathlon", podium1);
         sut.insertRace(race1);
 
         Podium podium2 = new Podium(
-                Set.of("USA"),
-                Set.of("CAN"),
-                Set.of("SWE")
+                Set.of(new NationCode("USA")),
+                Set.of(new NationCode("CAN")),
+                Set.of(new NationCode("SWE"))
         );
         Race race2 = new Race("G001", "Sci alpino", podium2);
 

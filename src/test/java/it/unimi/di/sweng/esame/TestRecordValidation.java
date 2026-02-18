@@ -1,5 +1,6 @@
 package it.unimi.di.sweng.esame;
 
+import it.unimi.di.sweng.esame.model.NationCode;
 import it.unimi.di.sweng.esame.model.Podium;
 import org.junit.jupiter.api.Test;
 
@@ -12,17 +13,17 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class TestRecordValidation {
     @Test
     void testPodiumRefEscaping() {
-        Set<String> mutableGold = new HashSet<>(Set.of("ITA"));
+        Set<NationCode> mutableGold = new HashSet<>(Set.of(new NationCode("ITA")));
         Podium podium = new Podium(
                 mutableGold,
-                Set.of("GER"),
-                Set.of("FRA")
+                Set.of(new NationCode("GER")),
+                Set.of(new NationCode("FRA"))
         );
 
-        mutableGold.add("USA");
-        assertThat(podium.gold()).containsExactly("ITA");
+        mutableGold.add(new NationCode("USA"));
+        assertThat(podium.gold()).containsExactly(new NationCode("ITA"));
 
-        assertThatThrownBy(() -> podium.gold().add("SWE"))
+        assertThatThrownBy(() -> podium.gold().add(new NationCode("SWE")))
                 .isInstanceOf(UnsupportedOperationException.class);
     }
 }

@@ -102,11 +102,13 @@ public class TestStrategies {
 
         assertThat(out).containsExactly(
                 new SportSelector.MedalEntry("G002", Discipline.BIATHLON, new NationCode("AUT"), SportSelector.MedalType.BRONZO),
+                new SportSelector.MedalEntry("G001", Discipline.BIATHLON, new NationCode("FRA"), SportSelector.MedalType.BRONZO),
                 new SportSelector.MedalEntry("G005", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ORO),
                 new SportSelector.MedalEntry("G001", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ARGENTO),
-                new SportSelector.MedalEntry("G001", Discipline.BIATHLON, new NationCode("FRA"), SportSelector.MedalType.BRONZO),
                 new SportSelector.MedalEntry("G005", Discipline.BIATHLON, new NationCode("ITA"), SportSelector.MedalType.ORO)
         );
+
+
     }
 
     @Test

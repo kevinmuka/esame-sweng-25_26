@@ -60,4 +60,26 @@ public class TestInputPresenter {
         verify(model).insertRace(race);
         verify(view).showSuccess();
     }
+
+    @Test
+    void insertRaceWithNoBronzeAndShowsSuccess() {
+        IState model = mock();
+        InputView view = mock();
+        InputPresenter sut = new MyInputPresenter(model, view);
+
+        sut.action1("G002,Biathlon", "ITA;SWE,GER;");
+
+        Race race = new Race(
+                "G002",
+                Discipline.BIATHLON,
+                new Podium(
+                        Set.of(new NationCode("ITA")),
+                        Set.of(new NationCode("SWE"), new NationCode("GER")),
+                        Set.of()
+                )
+        );
+
+        verify(model).insertRace(race);
+        verify(view).showSuccess();
+    }
 }

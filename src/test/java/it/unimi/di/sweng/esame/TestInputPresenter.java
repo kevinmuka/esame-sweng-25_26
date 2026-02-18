@@ -95,4 +95,17 @@ public class TestInputPresenter {
         verifyNoMoreInteractions(model);
     }
 
+    @Test
+    void invalidPodiumShowsErrorAndDoesNotInsertRace() {
+        IState model = mock();
+        InputView view = mock();
+        InputPresenter sut = new MyInputPresenter(model, view);
+
+        sut.action1("G004,Biathlon", "ITA;;"); // 1 oro, 0 argento, 0 bronzo -> non valido
+
+        verify(view).showError("configurazione podio non valida");
+        verifyNoMoreInteractions(model);
+    }
+
+
 }

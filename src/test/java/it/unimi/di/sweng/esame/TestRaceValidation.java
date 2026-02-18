@@ -11,7 +11,7 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class RaceValidation {
+public class TestRaceValidation {
     @Test
     void testRaceInvalidDiscipline() {
         Podium podium = new Podium(

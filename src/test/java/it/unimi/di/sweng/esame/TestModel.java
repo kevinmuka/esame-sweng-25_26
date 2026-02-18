@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.Set;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -37,6 +38,22 @@ public class TestModel {
 
         SUT.insertRace(race);
         verify(DOC).update(SUT, SUT.getState());
+    }
+
+    @Test
+    public void getState() {
+        Model SUT = new Model();
+        assertThat(SUT.getState()).isEmpty();
+
+        Podium podium = new Podium(
+                Set.of("ITA"),
+                Set.of("GER"),
+                Set.of("FRA")
+        );
+        Race race = new Race("G001", "Biathlon", podium);
+
+        SUT.insertRace(race);
+        assertThat(SUT.getState()).containsExactly(race);
     }
 
 }

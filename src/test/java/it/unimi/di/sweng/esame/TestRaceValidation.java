@@ -25,4 +25,16 @@ public class TestRaceValidation {
                 .hasMessageContaining("disciplina non valida");
     }
 
+    @Test
+    void testRaceEmptyId() {
+        Podium podium = new Podium(
+                Set.of(new NationCode("ITA")),
+                Set.of(new NationCode("GER")),
+                Set.of(new NationCode("FRA"))
+        );
+
+        assertThatThrownBy(() -> new Race(" ", Discipline.BIATHLON, podium))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("id gara non valido");
+    }
 }

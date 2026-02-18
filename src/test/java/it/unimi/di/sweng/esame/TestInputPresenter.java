@@ -119,5 +119,18 @@ public class TestInputPresenter {
         verify(view).showError("formato gara non valido");
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {"ITA;GER", "ITA;GER;FRA;SWE", "ITA,GER,FRA", "ITA;GER,;FRA", ""})
+    void invalidMedalsFieldFormatShowsError(String medalsField) {
+        IState model = mock();
+        InputView view = mock();
+        InputPresenter sut = new MyInputPresenter(model, view);
+
+        sut.action1("G005,Biathlon", medalsField);
+
+        verify(view).showError("formato medaglie non valido");
+    }
+
+
 
 }

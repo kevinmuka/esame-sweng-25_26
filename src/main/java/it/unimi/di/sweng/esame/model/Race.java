@@ -7,4 +7,9 @@ public record Race(
         @NotNull Discipline discipline,
         @NotNull Podium podium
 ) {
+    public Race {
+        if (raceId.isBlank()) {
+            throw new IllegalArgumentException("id gara non valido");
+        }
+    }
 }

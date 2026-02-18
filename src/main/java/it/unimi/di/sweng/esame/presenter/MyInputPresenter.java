@@ -4,7 +4,9 @@ import it.unimi.di.sweng.esame.model.*;
 import it.unimi.di.sweng.esame.view.InputView;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class MyInputPresenter implements InputPresenter {
     private final IState model;
@@ -24,14 +26,21 @@ public class MyInputPresenter implements InputPresenter {
 
         // Parse second field
         String[] medals = text1.split(";");
-        Set<NationCode> gold = Set.of(new NationCode(medals[0]));
-        Set<NationCode> silver = Set.of(new NationCode(medals[1]));
-        Set<NationCode> bronze = Set.of(new NationCode(medals[2]));
+        Set<NationCode> gold = parseGroup(medals[0]);
+        Set<NationCode> silver = parseGroup(medals[1]);
+        Set<NationCode> bronze = medals.length > 2 ? parseGroup(medals[2]) : Set.of();
 
         Podium podium = new Podium(gold, silver, bronze);
         Race race = new Race(raceId, discipline, podium);
 
         model.insertRace(race);
         view.showSuccess();
+    }
+
+    private static @NotNull Set<NationCode> parseGroup(@NotNull String group) {
+        return Arrays.stream(group.split(","))
+                .map(String::trim)
+                .map(NationCode::new)
+                .collect(Collectors.toSet());
     }
 }

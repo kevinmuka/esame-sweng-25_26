@@ -19,6 +19,6 @@ public class State implements IState {
 
     @Override
     public @NotNull List<Race> getRaces() {
-        return races.values().stream().toList();
+        return List.copyOf(races.values());
     }
 }

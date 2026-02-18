@@ -1,6 +1,7 @@
 package it.unimi.di.sweng.esame;
 
 import it.unimi.di.sweng.esame.model.Model;
+import it.unimi.di.sweng.esame.model.NationCode;
 import it.unimi.di.sweng.esame.model.Podium;
 import it.unimi.di.sweng.esame.model.Race;
 import org.junit.jupiter.api.Test;
@@ -30,9 +31,9 @@ public class TestModel {
         SUT.addObserver(DOC);
 
         Podium podium = new Podium(
-                Set.of("ITA"),
-                Set.of("GER"),
-                Set.of("FRA")
+                Set.of(new NationCode("ITA")),
+                Set.of(new NationCode("GER")),
+                Set.of(new NationCode("FRA"))
         );
         Race race = new Race("G001", "Biathlon", podium);
 
@@ -46,9 +47,9 @@ public class TestModel {
         assertThat(SUT.getState()).isEmpty();
 
         Podium podium = new Podium(
-                Set.of("ITA"),
-                Set.of("GER"),
-                Set.of("FRA")
+                Set.of(new NationCode("ITA")),
+                Set.of(new NationCode("GER")),
+                Set.of(new NationCode("FRA"))
         );
         Race race = new Race("G001", "Biathlon", podium);
 

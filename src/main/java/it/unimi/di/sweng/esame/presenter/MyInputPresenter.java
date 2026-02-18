@@ -26,7 +26,7 @@ public class MyInputPresenter implements InputPresenter {
             Discipline discipline = Discipline.fromString(parts[1]);
 
             // Parse second field
-            String[] medals = text1.split(";");
+            String[] medals = text1.split(";", -1);
             Set<NationCode> gold = parseGroup(medals[0]);
             Set<NationCode> silver = parseGroup(medals[1]);
             Set<NationCode> bronze = medals.length > 2 ? parseGroup(medals[2]) : Set.of();
@@ -42,6 +42,9 @@ public class MyInputPresenter implements InputPresenter {
     }
 
     private static @NotNull Set<NationCode> parseGroup(@NotNull String group) {
+        if (group.isBlank()) {
+            return Set.of();
+        }
         return Arrays.stream(group.split(","))
                 .map(String::trim)
                 .map(NationCode::new)

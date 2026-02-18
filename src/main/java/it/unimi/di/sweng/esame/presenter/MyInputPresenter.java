@@ -30,9 +30,12 @@ public class MyInputPresenter implements InputPresenter {
 
             // Parse second field
             String[] medals = text1.split(";", -1);
+            if (medals.length != 3) {
+                throw new IllegalArgumentException("formato medaglie non valido");
+            }
             Set<NationCode> gold = parseGroup(medals[0]);
             Set<NationCode> silver = parseGroup(medals[1]);
-            Set<NationCode> bronze = medals.length > 2 ? parseGroup(medals[2]) : Set.of();
+            Set<NationCode> bronze = parseGroup(medals[2]);
 
             Podium podium = new Podium(gold, silver, bronze);
             Race race = new Race(raceId, discipline, podium);
@@ -48,7 +51,11 @@ public class MyInputPresenter implements InputPresenter {
         if (group.isBlank()) {
             return Set.of();
         }
-        return Arrays.stream(group.split(","))
+        String[] codes = group.split(",", -1);
+        if (Arrays.stream(codes).map(String::trim).anyMatch(String::isEmpty)) {
+            throw new IllegalArgumentException("formato medaglie non valido");
+        }
+        return Arrays.stream(codes)
                 .map(String::trim)
                 .map(NationCode::new)
                 .collect(Collectors.toSet());

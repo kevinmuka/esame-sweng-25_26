@@ -25,4 +25,10 @@ public class Model extends State implements Observable<List<Race>> {
     public @NotNull List<Race> getState() {
         return List.of();
     }
+
+    @Override
+    public void insertRace(@NotNull Race race) {
+        super.insertRace(race);
+        notifyObservers();
+    }
 }

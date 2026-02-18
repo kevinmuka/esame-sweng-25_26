@@ -5,7 +5,10 @@ import it.unimi.di.sweng.esame.model.NationCode;
 import it.unimi.di.sweng.esame.model.Podium;
 import it.unimi.di.sweng.esame.model.Race;
 import it.unimi.di.sweng.esame.presenter.DataSelector;
+import it.unimi.di.sweng.esame.presenter.NationStatsOrdering;
+import it.unimi.di.sweng.esame.presenter.Ordering;
 import it.unimi.di.sweng.esame.presenter.SportSelector;
+import it.unimi.di.sweng.esame.presenter.SportByNationOrdering;
 import it.unimi.di.sweng.esame.presenter.StatsSelector;
 import org.junit.jupiter.api.Test;
 
@@ -81,6 +84,54 @@ public class TestStrategies {
                 new StatsSelector.NationStats(new NationCode("CAN"), 1, 0, 1, 0)
         );
     }
+
+
+    @Test
+    void sportOrdering_sortsByNationThenMedalType() {
+        Ordering<SportSelector.MedalEntry> sut = new SportByNationOrdering();
+
+        List<SportSelector.MedalEntry> input = List.of(
+                new SportSelector.MedalEntry("G005", Discipline.BIATHLON, new NationCode("ITA"), SportSelector.MedalType.ORO),
+                new SportSelector.MedalEntry("G001", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ARGENTO),
+                new SportSelector.MedalEntry("G002", Discipline.BIATHLON, new NationCode("AUT"), SportSelector.MedalType.BRONZO),
+                new SportSelector.MedalEntry("G001", Discipline.BIATHLON, new NationCode("FRA"), SportSelector.MedalType.BRONZO),
+                new SportSelector.MedalEntry("G005", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ORO)
+        );
+
+        List<SportSelector.MedalEntry> out = sut.sort(input);
+
+        assertThat(out).containsExactly(
+                new SportSelector.MedalEntry("G002", Discipline.BIATHLON, new NationCode("AUT"), SportSelector.MedalType.BRONZO),
+                new SportSelector.MedalEntry("G005", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ORO),
+                new SportSelector.MedalEntry("G001", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ARGENTO),
+                new SportSelector.MedalEntry("G001", Discipline.BIATHLON, new NationCode("FRA"), SportSelector.MedalType.BRONZO),
+                new SportSelector.MedalEntry("G005", Discipline.BIATHLON, new NationCode("ITA"), SportSelector.MedalType.ORO)
+        );
+    }
+
+    @Test
+    void statsOrdering_sortsByGoldThenSilverThenBronzeThenTotalThenNation() {
+        Ordering<StatsSelector.NationStats> sut = new NationStatsOrdering();
+
+        List<StatsSelector.NationStats> input = List.of(
+                new StatsSelector.NationStats(new NationCode("FRA"), 2, 0, 1, 1),
+                new StatsSelector.NationStats(new NationCode("USA"), 1, 1, 0, 0),
+                new StatsSelector.NationStats(new NationCode("NOR"), 2, 1, 0, 1),
+                new StatsSelector.NationStats(new NationCode("GER"), 2, 1, 1, 0),
+                new StatsSelector.NationStats(new NationCode("ITA"), 3, 2, 1, 0)
+        );
+
+        List<StatsSelector.NationStats> out = sut.sort(input);
+
+        assertThat(out).containsExactly(
+                new StatsSelector.NationStats(new NationCode("ITA"), 3, 2, 1, 0),
+                new StatsSelector.NationStats(new NationCode("GER"), 2, 1, 1, 0),
+                new StatsSelector.NationStats(new NationCode("NOR"), 2, 1, 0, 1),
+                new StatsSelector.NationStats(new NationCode("USA"), 1, 1, 0, 0),
+                new StatsSelector.NationStats(new NationCode("FRA"), 2, 0, 1, 1)
+        );
+    }
+
 
 
 

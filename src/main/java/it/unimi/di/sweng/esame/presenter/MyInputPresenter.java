@@ -21,7 +21,10 @@ public class MyInputPresenter implements InputPresenter {
     public void action1(@NotNull String text, @NotNull String text1) {
         try {
             // Parse first field
-            String[] parts = text.split(",");
+            String[] parts = text.split(",", -1);
+            if (parts.length != 2 || parts[0].isBlank() || parts[1].isBlank()) {
+                throw new IllegalArgumentException("formato gara non valido");
+            }
             String raceId = parts[0];
             Discipline discipline = Discipline.fromString(parts[1]);
 

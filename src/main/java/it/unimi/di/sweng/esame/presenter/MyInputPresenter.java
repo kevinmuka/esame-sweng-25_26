@@ -12,7 +12,7 @@ public class MyInputPresenter implements InputPresenter {
     private final IState model;
     private final InputView view;
 
-    public MyInputPresenter(IState model, InputView view) {
+    public MyInputPresenter(@NotNull IState model, @NotNull InputView view) {
         this.model = model;
         this.view = view;
     }

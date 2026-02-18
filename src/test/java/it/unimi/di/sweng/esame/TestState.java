@@ -1,6 +1,7 @@
 package it.unimi.di.sweng.esame;
 
 import it.unimi.di.sweng.esame.model.IState;
+import it.unimi.di.sweng.esame.model.Discipline;
 import it.unimi.di.sweng.esame.model.NationCode;
 import it.unimi.di.sweng.esame.model.Podium;
 import it.unimi.di.sweng.esame.model.Race;
@@ -22,7 +23,7 @@ public class TestState {
                 Set.of(new NationCode("GER")),
                 Set.of(new NationCode("FRA"))
         );
-        Race race = new Race("G001", "Biathlon", podium);
+        Race race = new Race("G001", Discipline.BIATHLON, podium);
 
         sut.insertRace(race);
         assertThat(sut.getRaces()).containsExactly(race);
@@ -36,7 +37,7 @@ public class TestState {
                 Set.of(new NationCode("GER")),
                 Set.of(new NationCode("FRA"))
         );
-        Race race1 = new Race("G001", "Biathlon", podium1);
+        Race race1 = new Race("G001", Discipline.BIATHLON, podium1);
         sut.insertRace(race1);
 
         Podium podium2 = new Podium(
@@ -44,7 +45,7 @@ public class TestState {
                 Set.of(new NationCode("CAN")),
                 Set.of(new NationCode("SWE"))
         );
-        Race race2 = new Race("G001", "Sci alpino", podium2);
+        Race race2 = new Race("G001", Discipline.SCI_ALPINO, podium2);
 
         assertThatThrownBy(() -> sut.insertRace(race2))
                 .isInstanceOf(IllegalArgumentException.class)

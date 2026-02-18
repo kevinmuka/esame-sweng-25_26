@@ -1,6 +1,7 @@
 package it.unimi.di.sweng.esame;
 
 import it.unimi.di.sweng.esame.model.Model;
+import it.unimi.di.sweng.esame.model.Discipline;
 import it.unimi.di.sweng.esame.model.NationCode;
 import it.unimi.di.sweng.esame.model.Podium;
 import it.unimi.di.sweng.esame.model.Race;
@@ -35,7 +36,7 @@ public class TestModel {
                 Set.of(new NationCode("GER")),
                 Set.of(new NationCode("FRA"))
         );
-        Race race = new Race("G001", "Biathlon", podium);
+        Race race = new Race("G001", Discipline.BIATHLON, podium);
 
         SUT.insertRace(race);
         verify(DOC).update(SUT, SUT.getState());
@@ -51,7 +52,7 @@ public class TestModel {
                 Set.of(new NationCode("GER")),
                 Set.of(new NationCode("FRA"))
         );
-        Race race = new Race("G001", "Biathlon", podium);
+        Race race = new Race("G001", Discipline.BIATHLON, podium);
 
         SUT.insertRace(race);
         assertThat(SUT.getState()).containsExactly(race);

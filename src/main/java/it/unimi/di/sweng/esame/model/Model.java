@@ -4,7 +4,6 @@ import it.unimi.di.sweng.esame.Observable;
 import it.unimi.di.sweng.esame.Observer;
 import org.jetbrains.annotations.NotNull;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class Model extends State implements Observable<List<Race>> {
 
     @Override
     public @NotNull List<Race> getState() {
-        return List.of();
+        return getRaces();
     }
 
     @Override

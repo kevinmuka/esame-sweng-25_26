@@ -8,3 +8,4 @@ out
 .gradle
 .DS_Store
 .idea_modules/
+AGENT.MD

@@ -28,7 +28,7 @@ public enum Discipline {
 
     public static @NotNull Discipline fromString(@NotNull String label) {
         for (Discipline discipline : values()) {
-            if (discipline.toString().equals(label)) {
+            if (discipline.text.equals(label)) {
                 return discipline;
             }
         }

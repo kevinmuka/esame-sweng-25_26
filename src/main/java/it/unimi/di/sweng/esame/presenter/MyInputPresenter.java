@@ -5,8 +5,7 @@ import it.unimi.di.sweng.esame.view.InputView;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
 public class MyInputPresenter implements InputPresenter {
     private final IState model;
@@ -33,9 +32,9 @@ public class MyInputPresenter implements InputPresenter {
             if (medals.length != 3) {
                 throw new IllegalArgumentException("formato medaglie non valido");
             }
-            Set<NationCode> gold = parseGroup(medals[0]);
-            Set<NationCode> silver = parseGroup(medals[1]);
-            Set<NationCode> bronze = parseGroup(medals[2]);
+            List<NationCode> gold = parseGroup(medals[0]);
+            List<NationCode> silver = parseGroup(medals[1]);
+            List<NationCode> bronze = parseGroup(medals[2]);
 
             Podium podium = new Podium(gold, silver, bronze);
             Race race = new Race(raceId, discipline, podium);
@@ -47,9 +46,9 @@ public class MyInputPresenter implements InputPresenter {
         }
     }
 
-    private static @NotNull Set<NationCode> parseGroup(@NotNull String group) {
+    private static @NotNull List<NationCode> parseGroup(@NotNull String group) {
         if (group.isBlank()) {
-            return Set.of();
+            return List.of();
         }
         String[] codes = group.split(",", -1);
         if (Arrays.stream(codes).map(String::trim).anyMatch(String::isEmpty)) {
@@ -58,6 +57,6 @@ public class MyInputPresenter implements InputPresenter {
         return Arrays.stream(codes)
                 .map(String::trim)
                 .map(NationCode::new)
-                .collect(Collectors.toSet());
+                .toList();
     }
 }

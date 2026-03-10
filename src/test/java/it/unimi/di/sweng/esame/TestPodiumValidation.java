@@ -7,11 +7,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class TestPodiumValidation {
@@ -26,11 +26,11 @@ public class TestPodiumValidation {
 
     @Test
     void testPodiumRefEscaping() {
-        Set<NationCode> mutableGold = new HashSet<>(Set.of(new NationCode("ITA")));
+        List<NationCode> mutableGold = new ArrayList<>(List.of(new NationCode("ITA")));
         Podium podium = new Podium(
                 mutableGold,
-                Set.of(new NationCode("GER")),
-                Set.of(new NationCode("FRA"))
+                List.of(new NationCode("GER")),
+                List.of(new NationCode("FRA"))
         );
 
         mutableGold.add(new NationCode("USA"));
@@ -52,9 +52,9 @@ public class TestPodiumValidation {
             "0,0,1"
     })
     void testPodiumInvalidFormats(int goldCount, int silverCount, int bronzeCount) {
-        Set<NationCode> gold = new HashSet<>();
-        Set<NationCode> silver = new HashSet<>();
-        Set<NationCode> bronze = new HashSet<>();
+        List<NationCode> gold = new ArrayList<>();
+        List<NationCode> silver = new ArrayList<>();
+        List<NationCode> bronze = new ArrayList<>();
 
         String[] validCodes = {"ITA", "GER", "FRA", "SWE", "NOR", "USA", "CAN"};
 
@@ -79,9 +79,9 @@ public class TestPodiumValidation {
             "4,0,0"
     })
     void testPodiumValidFormats(int goldCount, int silverCount, int bronzeCount) {
-        Set<NationCode> gold = new HashSet<>();
-        Set<NationCode> silver = new HashSet<>();
-        Set<NationCode> bronze = new HashSet<>();
+        List<NationCode> gold = new ArrayList<>();
+        List<NationCode> silver = new ArrayList<>();
+        List<NationCode> bronze = new ArrayList<>();
 
         String[] validCodes = {"ITA", "GER", "FRA", "SWE", "NOR", "USA", "CAN"};
 

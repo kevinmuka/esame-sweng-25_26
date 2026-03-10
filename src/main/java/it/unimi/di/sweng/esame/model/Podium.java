@@ -2,17 +2,17 @@ package it.unimi.di.sweng.esame.model;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Set;
+import java.util.List;
 
 public record Podium(
-        @NotNull Set<NationCode> gold,
-        @NotNull Set<NationCode> silver,
-        @NotNull Set<NationCode> bronze
+        @NotNull List<NationCode> gold,
+        @NotNull List<NationCode> silver,
+        @NotNull List<NationCode> bronze
 ) {
     public Podium {
-        gold = Set.copyOf(gold);
-        silver = Set.copyOf(silver);
-        bronze = Set.copyOf(bronze);
+        gold = List.copyOf(gold);
+        silver = List.copyOf(silver);
+        bronze = List.copyOf(bronze);
 
         int goldCount = gold.size();
         int silverCount = silver.size();

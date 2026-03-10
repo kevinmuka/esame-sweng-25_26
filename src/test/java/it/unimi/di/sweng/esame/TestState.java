@@ -9,7 +9,6 @@ import it.unimi.di.sweng.esame.model.State;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -20,9 +19,9 @@ public class TestState {
     void insertRace() {
         IState sut = new State();
         Podium podium = new Podium(
-                Set.of(new NationCode("ITA")),
-                Set.of(new NationCode("GER")),
-                Set.of(new NationCode("FRA"))
+                List.of(new NationCode("ITA")),
+                List.of(new NationCode("GER")),
+                List.of(new NationCode("FRA"))
         );
         Race race = new Race("G001", Discipline.BIATHLON, podium);
 
@@ -34,17 +33,17 @@ public class TestState {
     void insertDuplicateRace() {
         IState sut = new State();
         Podium podium1 = new Podium(
-                Set.of(new NationCode("ITA")),
-                Set.of(new NationCode("GER")),
-                Set.of(new NationCode("FRA"))
+                List.of(new NationCode("ITA")),
+                List.of(new NationCode("GER")),
+                List.of(new NationCode("FRA"))
         );
         Race race1 = new Race("G001", Discipline.BIATHLON, podium1);
         sut.insertRace(race1);
 
         Podium podium2 = new Podium(
-                Set.of(new NationCode("USA")),
-                Set.of(new NationCode("CAN")),
-                Set.of(new NationCode("SWE"))
+                List.of(new NationCode("USA")),
+                List.of(new NationCode("CAN")),
+                List.of(new NationCode("SWE"))
         );
         Race race2 = new Race("G001", Discipline.SCI_ALPINO, podium2);
 
@@ -60,9 +59,9 @@ public class TestState {
                 "G001",
                 Discipline.BIATHLON,
                 new Podium(
-                        Set.of(new NationCode("ITA")),
-                        Set.of(new NationCode("GER")),
-                        Set.of(new NationCode("FRA"))
+                        List.of(new NationCode("ITA")),
+                        List.of(new NationCode("GER")),
+                        List.of(new NationCode("FRA"))
                 )
         );
         sut.insertRace(race);
@@ -79,18 +78,18 @@ public class TestState {
                 "G001",
                 Discipline.BIATHLON,
                 new Podium(
-                        Set.of(new NationCode("ITA")),
-                        Set.of(new NationCode("GER")),
-                        Set.of(new NationCode("FRA"))
+                        List.of(new NationCode("ITA")),
+                        List.of(new NationCode("GER")),
+                        List.of(new NationCode("FRA"))
                 )
         );
         Race race2 = new Race(
                 "G002",
                 Discipline.BOB,
                 new Podium(
-                        Set.of(new NationCode("USA")),
-                        Set.of(new NationCode("CAN")),
-                        Set.of(new NationCode("SWE"))
+                        List.of(new NationCode("USA")),
+                        List.of(new NationCode("CAN")),
+                        List.of(new NationCode("SWE"))
                 )
         );
 

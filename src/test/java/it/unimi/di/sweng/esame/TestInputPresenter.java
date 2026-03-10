@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.Set;
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -29,9 +29,9 @@ public class TestInputPresenter {
                 "G001",
                 Discipline.BIATHLON,
                 new Podium(
-                        Set.of(new NationCode("ITA")),
-                        Set.of(new NationCode("GER")),
-                        Set.of(new NationCode("FRA"))
+                        List.of(new NationCode("ITA")),
+                        List.of(new NationCode("GER")),
+                        List.of(new NationCode("FRA"))
                 )
         );
 
@@ -51,9 +51,9 @@ public class TestInputPresenter {
                 "G002",
                 Discipline.BIATHLON,
                 new Podium(
-                        Set.of(new NationCode("ITA")),
-                        Set.of(new NationCode("SWE")),
-                        Set.of(new NationCode("GER"), new NationCode("NOR"))
+                        List.of(new NationCode("ITA")),
+                        List.of(new NationCode("SWE")),
+                        List.of(new NationCode("GER"), new NationCode("NOR"))
                 )
         );
 
@@ -73,9 +73,9 @@ public class TestInputPresenter {
                 "G002",
                 Discipline.BIATHLON,
                 new Podium(
-                        Set.of(new NationCode("ITA")),
-                        Set.of(new NationCode("SWE"), new NationCode("GER")),
-                        Set.of()
+                        List.of(new NationCode("ITA")),
+                        List.of(new NationCode("SWE"), new NationCode("GER")),
+                        List.of()
                 )
         );
 

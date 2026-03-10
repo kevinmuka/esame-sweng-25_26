@@ -16,7 +16,6 @@ import it.unimi.di.sweng.esame.presenter.StatsSelector;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,9 +28,9 @@ public class TestStrategies {
                 "G001",
                 Discipline.BIATHLON,
                 new Podium(
-                        Set.of(new NationCode("ITA")),
-                        Set.of(new NationCode("GER")),
-                        Set.of(new NationCode("FRA"))
+                        List.of(new NationCode("ITA")),
+                        List.of(new NationCode("GER")),
+                        List.of(new NationCode("FRA"))
                 )
         );
 
@@ -39,9 +38,9 @@ public class TestStrategies {
                 "G002",
                 Discipline.SNOWBOARD,
                 new Podium(
-                        Set.of(new NationCode("USA")),
-                        Set.of(new NationCode("CAN")),
-                        Set.of(new NationCode("JPN"))
+                        List.of(new NationCode("USA")),
+                        List.of(new NationCode("CAN")),
+                        List.of(new NationCode("JPN"))
                 )
         );
 
@@ -62,9 +61,9 @@ public class TestStrategies {
                 "G001",
                 Discipline.BIATHLON,
                 new Podium(
-                        Set.of(new NationCode("ITA")),
-                        Set.of(new NationCode("GER")),
-                        Set.of(new NationCode("FRA"))
+                        List.of(new NationCode("ITA")),
+                        List.of(new NationCode("GER")),
+                        List.of(new NationCode("FRA"))
                 )
         );
 
@@ -72,9 +71,9 @@ public class TestStrategies {
                 "G002",
                 Discipline.SNOWBOARD,
                 new Podium(
-                        Set.of(new NationCode("ITA")),
-                        Set.of(new NationCode("CAN")),
-                        Set.of(new NationCode("GER"))
+                        List.of(new NationCode("ITA")),
+                        List.of(new NationCode("CAN")),
+                        List.of(new NationCode("GER"))
                 )
         );
 

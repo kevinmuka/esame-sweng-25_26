@@ -8,7 +8,6 @@ import it.unimi.di.sweng.esame.model.Race;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -33,9 +32,9 @@ public class TestModel {
         SUT.addObserver(DOC);
 
         Podium podium = new Podium(
-                Set.of(new NationCode("ITA")),
-                Set.of(new NationCode("GER")),
-                Set.of(new NationCode("FRA"))
+                List.of(new NationCode("ITA")),
+                List.of(new NationCode("GER")),
+                List.of(new NationCode("FRA"))
         );
         Race race = new Race("G001", Discipline.BIATHLON, podium);
 
@@ -49,9 +48,9 @@ public class TestModel {
         assertThat(SUT.getState()).isEmpty();
 
         Podium podium = new Podium(
-                Set.of(new NationCode("ITA")),
-                Set.of(new NationCode("GER")),
-                Set.of(new NationCode("FRA"))
+                List.of(new NationCode("ITA")),
+                List.of(new NationCode("GER")),
+                List.of(new NationCode("FRA"))
         );
         Race race = new Race("G001", Discipline.BIATHLON, podium);
 
@@ -66,9 +65,9 @@ public class TestModel {
                 "G001",
                 Discipline.BIATHLON,
                 new Podium(
-                        Set.of(new NationCode("ITA")),
-                        Set.of(new NationCode("GER")),
-                        Set.of(new NationCode("FRA"))
+                        List.of(new NationCode("ITA")),
+                        List.of(new NationCode("GER")),
+                        List.of(new NationCode("FRA"))
                 )
         );
         SUT.insertRace(race);
@@ -85,18 +84,18 @@ public class TestModel {
                 "G001",
                 Discipline.BIATHLON,
                 new Podium(
-                        Set.of(new NationCode("ITA")),
-                        Set.of(new NationCode("GER")),
-                        Set.of(new NationCode("FRA"))
+                        List.of(new NationCode("ITA")),
+                        List.of(new NationCode("GER")),
+                        List.of(new NationCode("FRA"))
                 )
         );
         Race race2 = new Race(
                 "G002",
                 Discipline.BOB,
                 new Podium(
-                        Set.of(new NationCode("USA")),
-                        Set.of(new NationCode("CAN")),
-                        Set.of(new NationCode("SWE"))
+                        List.of(new NationCode("USA")),
+                        List.of(new NationCode("CAN")),
+                        List.of(new NationCode("SWE"))
                 )
         );
 

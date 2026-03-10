@@ -15,12 +15,12 @@ public record MedalEntry(
     public static final Comparator<MedalEntry> BY_NATION_THEN_MEDAL =
             Comparator
                     .comparing((MedalEntry e) -> e.nation().nationCode())
-                    .thenComparingInt(e -> e.medalType().rank())
+                    .thenComparing(MedalEntry::medalType)
                     .thenComparing(MedalEntry::raceId);
 
     public static final Comparator<MedalEntry> BY_MEDAL_THEN_NATION =
             Comparator
-                    .comparingInt((MedalEntry e) -> e.medalType().rank())
+                    .comparing(MedalEntry::medalType)
                     .thenComparing(e -> e.nation().nationCode())
                     .thenComparing(MedalEntry::raceId);
 
@@ -32,10 +32,6 @@ public record MedalEntry(
     public enum MedalType {
         ORO,
         ARGENTO,
-        BRONZO;
-
-        int rank() {
-            return ordinal();
-        }
+        BRONZO
     }
 }

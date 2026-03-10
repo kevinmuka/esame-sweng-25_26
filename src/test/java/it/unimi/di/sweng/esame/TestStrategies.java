@@ -104,6 +104,27 @@ public class TestStrategies {
     }
 
     @Test
+    void sportOrdering_sortsByMedalTypeThenNation() {
+        List<MedalEntry> input = List.of(
+                new MedalEntry("G005", Discipline.BIATHLON, new NationCode("ITA"), SportSelector.MedalType.ORO),
+                new MedalEntry("G001", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ARGENTO),
+                new MedalEntry("G002", Discipline.BIATHLON, new NationCode("AUT"), SportSelector.MedalType.BRONZO),
+                new MedalEntry("G001", Discipline.BIATHLON, new NationCode("FRA"), SportSelector.MedalType.BRONZO),
+                new MedalEntry("G005", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ORO)
+        );
+
+        List<MedalEntry> out = input.stream().sorted(MedalEntry.BY_MEDAL_THEN_NATION).toList();
+
+        assertThat(out).containsExactly(
+                new MedalEntry("G005", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ORO),
+                new MedalEntry("G005", Discipline.BIATHLON, new NationCode("ITA"), SportSelector.MedalType.ORO),
+                new MedalEntry("G001", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ARGENTO),
+                new MedalEntry("G002", Discipline.BIATHLON, new NationCode("AUT"), SportSelector.MedalType.BRONZO),
+                new MedalEntry("G001", Discipline.BIATHLON, new NationCode("FRA"), SportSelector.MedalType.BRONZO)
+        );
+    }
+
+    @Test
     void statsOrdering_sortsByGoldThenSilverThenBronzeThenTotalThenNation() {
         List<NationStats> input = List.of(
                 new NationStats(new NationCode("FRA"), 2, 0, 1, 1),

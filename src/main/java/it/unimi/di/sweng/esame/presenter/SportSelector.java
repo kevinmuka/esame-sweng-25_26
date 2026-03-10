@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SportSelector implements DataSelector<MedalEntry> {
+public class SportSelector implements DataSelector<Race, MedalEntry> {
     private final Discipline targetDiscipline;
 
     public SportSelector(@NotNull Discipline targetDiscipline) {

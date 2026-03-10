@@ -21,7 +21,7 @@ public class TestOutputPresenter {
         OutputView view = mock();
         when(view.size()).thenReturn(5);
 
-        DataSelector<String> selector = mock();
+        DataSelector<Race, String> selector = mock();
         when(selector.select(state)).thenReturn(List.of("b", "a"));
         Comparator<String> comparator = mock();
         when(comparator.compare("a", "b")).thenReturn(-1);

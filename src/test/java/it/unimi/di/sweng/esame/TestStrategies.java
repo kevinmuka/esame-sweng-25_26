@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TestStrategies {
     @Test
     void sportSelector_filtersByDisciplineAndExpandsPodiumIntoMedals() {
-        DataSelector<MedalEntry> sut = new SportSelector(Discipline.BIATHLON);
+        DataSelector<Race, MedalEntry> sut = new SportSelector(Discipline.BIATHLON);
 
         Race biathlon = new Race(
                 "G001",
@@ -47,7 +47,7 @@ public class TestStrategies {
 
     @Test
     void statsSelector_aggregatesMedalsByNation() {
-        DataSelector<NationStats> sut = new StatsSelector();
+        DataSelector<Race, NationStats> sut = new StatsSelector();
 
         Race r1 = new Race(
                 "G001",

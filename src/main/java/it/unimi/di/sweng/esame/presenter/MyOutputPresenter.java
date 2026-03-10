@@ -12,13 +12,13 @@ import java.util.function.Function;
 
 public class MyOutputPresenter<T> implements Observer<List<Race>> {
     private final OutputView view;
-    private final DataSelector<T> selector;
+    private final DataSelector<Race, T> selector;
     private final Comparator<T> ordering;
     private final Function<T, String> formatter;
 
     public MyOutputPresenter(
             @NotNull OutputView view,
-            @NotNull DataSelector<T> selector,
+            @NotNull DataSelector<Race, T> selector,
             @NotNull Comparator<T> ordering,
             @NotNull Function<T, String> formatter
     ) {

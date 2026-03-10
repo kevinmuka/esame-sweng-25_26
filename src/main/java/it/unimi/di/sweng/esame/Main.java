@@ -52,15 +52,15 @@ public class Main extends Application {
         input.addHandlers(new MyInputPresenter(model, input));
         model.addObserver(new MyOutputPresenter<>(display1,
                 new SportSelector(Discipline.BIATHLON),
-                new SportByNationOrdering(),
+                MedalEntry.BY_NATION_THEN_MEDAL,
                 MedalEntry::toString));
         model.addObserver(new MyOutputPresenter<>(display2,
                 new SportSelector(Discipline.SNOWBOARD),
-                new SportByMedalOrdering(),
+                MedalEntry.BY_MEDAL_THEN_NATION,
                 MedalEntry::toString));
         model.addObserver(new MyOutputPresenter<>(display3,
                 new StatsSelector(),
-                new NationStatsOrdering(),
+                NationStats.BY_MEDAL_TABLE,
                 NationStats::toString));
 
         Scene scene = new Scene(gridPane);

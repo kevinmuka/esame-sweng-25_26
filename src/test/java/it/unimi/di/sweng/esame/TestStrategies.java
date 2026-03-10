@@ -82,8 +82,6 @@ public class TestStrategies {
 
     @Test
     void sportOrdering_sortsByNationThenMedalType() {
-        Ordering<MedalEntry> sut = new SportByNationOrdering();
-
         List<MedalEntry> input = List.of(
                 new MedalEntry("G005", Discipline.BIATHLON, new NationCode("ITA"), SportSelector.MedalType.ORO),
                 new MedalEntry("G001", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ARGENTO),
@@ -92,7 +90,7 @@ public class TestStrategies {
                 new MedalEntry("G005", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ORO)
         );
 
-        List<MedalEntry> out = sut.sort(input);
+        List<MedalEntry> out = input.stream().sorted(MedalEntry.BY_NATION_THEN_MEDAL).toList();
 
         assertThat(out).containsExactly(
                 new MedalEntry("G002", Discipline.BIATHLON, new NationCode("AUT"), SportSelector.MedalType.BRONZO),
@@ -107,8 +105,6 @@ public class TestStrategies {
 
     @Test
     void statsOrdering_sortsByGoldThenSilverThenBronzeThenTotalThenNation() {
-        Ordering<NationStats> sut = new NationStatsOrdering();
-
         List<NationStats> input = List.of(
                 new NationStats(new NationCode("FRA"), 2, 0, 1, 1),
                 new NationStats(new NationCode("USA"), 1, 1, 0, 0),
@@ -117,7 +113,7 @@ public class TestStrategies {
                 new NationStats(new NationCode("ITA"), 3, 2, 1, 0)
         );
 
-        List<NationStats> out = sut.sort(input);
+        List<NationStats> out = input.stream().sorted(NationStats.BY_MEDAL_TABLE).toList();
 
         assertThat(out).containsExactly(
                 new NationStats(new NationCode("ITA"), 3, 2, 1, 0),

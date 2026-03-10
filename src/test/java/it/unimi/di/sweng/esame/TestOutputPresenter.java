@@ -1,15 +1,12 @@
 package it.unimi.di.sweng.esame;
 
-import it.unimi.di.sweng.esame.model.Discipline;
-import it.unimi.di.sweng.esame.model.NationCode;
-import it.unimi.di.sweng.esame.model.Podium;
 import it.unimi.di.sweng.esame.model.Race;
 import it.unimi.di.sweng.esame.presenter.DataSelector;
 import it.unimi.di.sweng.esame.presenter.MyOutputPresenter;
-import it.unimi.di.sweng.esame.presenter.Ordering;
 import it.unimi.di.sweng.esame.view.OutputView;
 import org.junit.jupiter.api.Test;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 
@@ -21,38 +18,29 @@ public class TestOutputPresenter {
         Observable<List<Race>> subject = mock();
         List<Race> state = List.of();
 
-        Race race = new Race(
-                "G001",
-                Discipline.BIATHLON,
-                new Podium(
-                        List.of(new NationCode("ITA")),
-                        List.of(new NationCode("GER")),
-                        List.of(new NationCode("FRA"))
-                )
-        );
-        List<Race> selected = List.of(race);
-        List<Race> ordered = List.of(race);
-
         OutputView view = mock();
         when(view.size()).thenReturn(5);
 
-        DataSelector<Race> selector = mock();
-        when(selector.select(state)).thenReturn(selected);
+        DataSelector<String> selector = mock();
+        when(selector.select(state)).thenReturn(List.of("b", "a"));
+        Comparator<String> comparator = mock();
+        when(comparator.compare("a", "b")).thenReturn(-1);
+        when(comparator.compare("b", "a")).thenReturn(1);
+        Function<String, String> formatter = mock();
+        when(formatter.apply("a")).thenReturn("G001");
+        when(formatter.apply("b")).thenReturn("G002");
 
-        Ordering<Race> ordering = mock();
-        when(ordering.sort(selected)).thenReturn(ordered);
+        MyOutputPresenter<String> sut = new MyOutputPresenter<>(
+                view,
+                selector,
+                comparator,
+                formatter
+        );
 
-        Function<Race, String> formatter = mock();
-        when(formatter.apply(race)).thenReturn("r1");
-
-        MyOutputPresenter<Race> sut = new MyOutputPresenter<>(view, selector, ordering, formatter);
         sut.update(subject, state);
 
-        verify(selector).select(state);
-        verify(ordering).sort(selected);
-        verify(formatter).apply(race);
-        verify(view).set(0, "r1");
-        verify(view).set(1, "");
+        verify(view).set(0, "G001");
+        verify(view).set(1, "G002");
         verify(view).set(2, "");
         verify(view).set(3, "");
         verify(view).set(4, "");

@@ -7,14 +7,20 @@ import it.unimi.di.sweng.esame.view.OutputView;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.Function;
 
 public class MyOutputPresenter<T> implements Observer<List<Race>> {
     private final OutputView view;
     private final DataSelector<T> selector;
     private final Ordering<T> ordering;
-    private final RowFormatter<T> formatter;
+    private final Function<T, String> formatter;
 
-    public MyOutputPresenter(@NotNull OutputView view, @NotNull DataSelector<T> selector, @NotNull Ordering<T> ordering, @NotNull RowFormatter<T> formatter) {
+    public MyOutputPresenter(
+            @NotNull OutputView view,
+            @NotNull DataSelector<T> selector,
+            @NotNull Ordering<T> ordering,
+            @NotNull Function<T, String> formatter
+    ) {
         this.view = view;
         this.selector = selector;
         this.ordering = ordering;
@@ -25,7 +31,7 @@ public class MyOutputPresenter<T> implements Observer<List<Race>> {
     public void update(@NotNull Observable<List<Race>> subject, @NotNull List<Race> state) {
         List<T> selected = selector.select(state);
         List<T> ordered = ordering.sort(selected);
-        List<String> rows = formatter.format(ordered);
+        List<String> rows = ordered.stream().map(formatter).toList();
         for (int i = 0; i < view.size(); i++) {
             view.set(i, i < rows.size() ? rows.get(i) : "");
         }

@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StatsSelector implements DataSelector<StatsSelector.NationStats> {
+public class StatsSelector implements DataSelector<NationStats> {
     @Override
     public @NotNull List<NationStats> select(@NotNull List<Race> input) {
         Map<NationCode, MutableStats> byNation = new HashMap<>();
@@ -38,15 +38,6 @@ public class StatsSelector implements DataSelector<StatsSelector.NationStats> {
             ));
         }
         return out;
-    }
-
-    public record NationStats(
-            @NotNull NationCode nation,
-            int total,
-            int gold,
-            int silver,
-            int bronze
-    ) {
     }
 
     private static final class MutableStats {

@@ -4,15 +4,7 @@ import it.unimi.di.sweng.esame.model.Discipline;
 import it.unimi.di.sweng.esame.model.NationCode;
 import it.unimi.di.sweng.esame.model.Podium;
 import it.unimi.di.sweng.esame.model.Race;
-import it.unimi.di.sweng.esame.presenter.DataSelector;
-import it.unimi.di.sweng.esame.presenter.NationStatsOrdering;
-import it.unimi.di.sweng.esame.presenter.NationStatsRowFormatter;
-import it.unimi.di.sweng.esame.presenter.Ordering;
-import it.unimi.di.sweng.esame.presenter.RowFormatter;
-import it.unimi.di.sweng.esame.presenter.SportSelector;
-import it.unimi.di.sweng.esame.presenter.SportByNationOrdering;
-import it.unimi.di.sweng.esame.presenter.SportRowFormatter;
-import it.unimi.di.sweng.esame.presenter.StatsSelector;
+import it.unimi.di.sweng.esame.presenter.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -22,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TestStrategies {
     @Test
     void sportSelector_filtersByDisciplineAndExpandsPodiumIntoMedals() {
-        DataSelector<SportSelector.MedalEntry> sut = new SportSelector(Discipline.BIATHLON);
+        DataSelector<MedalEntry> sut = new SportSelector(Discipline.BIATHLON);
 
         Race biathlon = new Race(
                 "G001",
@@ -44,18 +36,18 @@ public class TestStrategies {
                 )
         );
 
-        List<SportSelector.MedalEntry> out = sut.select(List.of(biathlon, snowboard));
+        List<MedalEntry> out = sut.select(List.of(biathlon, snowboard));
 
         assertThat(out).containsExactlyInAnyOrder(
-                new SportSelector.MedalEntry("G001", Discipline.BIATHLON, new NationCode("ITA"), SportSelector.MedalType.ORO),
-                new SportSelector.MedalEntry("G001", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ARGENTO),
-                new SportSelector.MedalEntry("G001", Discipline.BIATHLON, new NationCode("FRA"), SportSelector.MedalType.BRONZO)
+                new MedalEntry("G001", Discipline.BIATHLON, new NationCode("ITA"), SportSelector.MedalType.ORO),
+                new MedalEntry("G001", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ARGENTO),
+                new MedalEntry("G001", Discipline.BIATHLON, new NationCode("FRA"), SportSelector.MedalType.BRONZO)
         );
     }
 
     @Test
     void statsSelector_aggregatesMedalsByNation() {
-        DataSelector<StatsSelector.NationStats> sut = new StatsSelector();
+        DataSelector<NationStats> sut = new StatsSelector();
 
         Race r1 = new Race(
                 "G001",
@@ -77,37 +69,37 @@ public class TestStrategies {
                 )
         );
 
-        List<StatsSelector.NationStats> out = sut.select(List.of(r1, r2));
+        List<NationStats> out = sut.select(List.of(r1, r2));
 
         assertThat(out).contains(
-                new StatsSelector.NationStats(new NationCode("ITA"), 2, 2, 0, 0),
-                new StatsSelector.NationStats(new NationCode("GER"), 2, 0, 1, 1),
-                new StatsSelector.NationStats(new NationCode("FRA"), 1, 0, 0, 1),
-                new StatsSelector.NationStats(new NationCode("CAN"), 1, 0, 1, 0)
+                new NationStats(new NationCode("ITA"), 2, 2, 0, 0),
+                new NationStats(new NationCode("GER"), 2, 0, 1, 1),
+                new NationStats(new NationCode("FRA"), 1, 0, 0, 1),
+                new NationStats(new NationCode("CAN"), 1, 0, 1, 0)
         );
     }
 
 
     @Test
     void sportOrdering_sortsByNationThenMedalType() {
-        Ordering<SportSelector.MedalEntry> sut = new SportByNationOrdering();
+        Ordering<MedalEntry> sut = new SportByNationOrdering();
 
-        List<SportSelector.MedalEntry> input = List.of(
-                new SportSelector.MedalEntry("G005", Discipline.BIATHLON, new NationCode("ITA"), SportSelector.MedalType.ORO),
-                new SportSelector.MedalEntry("G001", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ARGENTO),
-                new SportSelector.MedalEntry("G002", Discipline.BIATHLON, new NationCode("AUT"), SportSelector.MedalType.BRONZO),
-                new SportSelector.MedalEntry("G001", Discipline.BIATHLON, new NationCode("FRA"), SportSelector.MedalType.BRONZO),
-                new SportSelector.MedalEntry("G005", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ORO)
+        List<MedalEntry> input = List.of(
+                new MedalEntry("G005", Discipline.BIATHLON, new NationCode("ITA"), SportSelector.MedalType.ORO),
+                new MedalEntry("G001", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ARGENTO),
+                new MedalEntry("G002", Discipline.BIATHLON, new NationCode("AUT"), SportSelector.MedalType.BRONZO),
+                new MedalEntry("G001", Discipline.BIATHLON, new NationCode("FRA"), SportSelector.MedalType.BRONZO),
+                new MedalEntry("G005", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ORO)
         );
 
-        List<SportSelector.MedalEntry> out = sut.sort(input);
+        List<MedalEntry> out = sut.sort(input);
 
         assertThat(out).containsExactly(
-                new SportSelector.MedalEntry("G002", Discipline.BIATHLON, new NationCode("AUT"), SportSelector.MedalType.BRONZO),
-                new SportSelector.MedalEntry("G001", Discipline.BIATHLON, new NationCode("FRA"), SportSelector.MedalType.BRONZO),
-                new SportSelector.MedalEntry("G005", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ORO),
-                new SportSelector.MedalEntry("G001", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ARGENTO),
-                new SportSelector.MedalEntry("G005", Discipline.BIATHLON, new NationCode("ITA"), SportSelector.MedalType.ORO)
+                new MedalEntry("G002", Discipline.BIATHLON, new NationCode("AUT"), SportSelector.MedalType.BRONZO),
+                new MedalEntry("G001", Discipline.BIATHLON, new NationCode("FRA"), SportSelector.MedalType.BRONZO),
+                new MedalEntry("G005", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ORO),
+                new MedalEntry("G001", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ARGENTO),
+                new MedalEntry("G005", Discipline.BIATHLON, new NationCode("ITA"), SportSelector.MedalType.ORO)
         );
 
 
@@ -115,39 +107,37 @@ public class TestStrategies {
 
     @Test
     void statsOrdering_sortsByGoldThenSilverThenBronzeThenTotalThenNation() {
-        Ordering<StatsSelector.NationStats> sut = new NationStatsOrdering();
+        Ordering<NationStats> sut = new NationStatsOrdering();
 
-        List<StatsSelector.NationStats> input = List.of(
-                new StatsSelector.NationStats(new NationCode("FRA"), 2, 0, 1, 1),
-                new StatsSelector.NationStats(new NationCode("USA"), 1, 1, 0, 0),
-                new StatsSelector.NationStats(new NationCode("NOR"), 2, 1, 0, 1),
-                new StatsSelector.NationStats(new NationCode("GER"), 2, 1, 1, 0),
-                new StatsSelector.NationStats(new NationCode("ITA"), 3, 2, 1, 0)
+        List<NationStats> input = List.of(
+                new NationStats(new NationCode("FRA"), 2, 0, 1, 1),
+                new NationStats(new NationCode("USA"), 1, 1, 0, 0),
+                new NationStats(new NationCode("NOR"), 2, 1, 0, 1),
+                new NationStats(new NationCode("GER"), 2, 1, 1, 0),
+                new NationStats(new NationCode("ITA"), 3, 2, 1, 0)
         );
 
-        List<StatsSelector.NationStats> out = sut.sort(input);
+        List<NationStats> out = sut.sort(input);
 
         assertThat(out).containsExactly(
-                new StatsSelector.NationStats(new NationCode("ITA"), 3, 2, 1, 0),
-                new StatsSelector.NationStats(new NationCode("GER"), 2, 1, 1, 0),
-                new StatsSelector.NationStats(new NationCode("NOR"), 2, 1, 0, 1),
-                new StatsSelector.NationStats(new NationCode("USA"), 1, 1, 0, 0),
-                new StatsSelector.NationStats(new NationCode("FRA"), 2, 0, 1, 1)
+                new NationStats(new NationCode("ITA"), 3, 2, 1, 0),
+                new NationStats(new NationCode("GER"), 2, 1, 1, 0),
+                new NationStats(new NationCode("NOR"), 2, 1, 0, 1),
+                new NationStats(new NationCode("USA"), 1, 1, 0, 0),
+                new NationStats(new NationCode("FRA"), 2, 0, 1, 1)
         );
     }
 
 
     @Test
     void sportRowFormatter_formatsSportRows() {
-        RowFormatter<SportSelector.MedalEntry> sut = new SportRowFormatter();
-
-        List<SportSelector.MedalEntry> input = List.of(
-                new SportSelector.MedalEntry("G002", Discipline.BIATHLON, new NationCode("AUT"), SportSelector.MedalType.BRONZO),
-                new SportSelector.MedalEntry("G005", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ORO),
-                new SportSelector.MedalEntry("G001", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ARGENTO)
+        List<MedalEntry> input = List.of(
+                new MedalEntry("G002", Discipline.BIATHLON, new NationCode("AUT"), SportSelector.MedalType.BRONZO),
+                new MedalEntry("G005", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ORO),
+                new MedalEntry("G001", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ARGENTO)
         );
 
-        List<String> out = sut.format(input);
+        List<String> out = input.stream().map(MedalEntry::toString).toList();
 
         assertThat(out).containsExactly(
                 "AUT BRONZO G002",
@@ -158,15 +148,13 @@ public class TestStrategies {
 
     @Test
     void nationStatsRowFormatter_formatsStatsRows() {
-        RowFormatter<StatsSelector.NationStats> sut = new NationStatsRowFormatter();
-
-        List<StatsSelector.NationStats> input = List.of(
-                new StatsSelector.NationStats(new NationCode("ITA"), 3, 2, 1, 0),
-                new StatsSelector.NationStats(new NationCode("GER"), 2, 1, 1, 0),
-                new StatsSelector.NationStats(new NationCode("NOR"), 2, 1, 0, 1)
+        List<NationStats> input = List.of(
+                new NationStats(new NationCode("ITA"), 3, 2, 1, 0),
+                new NationStats(new NationCode("GER"), 2, 1, 1, 0),
+                new NationStats(new NationCode("NOR"), 2, 1, 0, 1)
         );
 
-        List<String> out = sut.format(input);
+        List<String> out = input.stream().map(NationStats::toString).toList();
 
         assertThat(out).containsExactly(
                 "ITA (Tot: 3 Ori: 2 Argenti: 1 Bronzi: 0)",

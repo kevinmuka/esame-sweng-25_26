@@ -5,17 +5,17 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Comparator;
 import java.util.List;
 
-public class NationStatsOrdering implements Ordering<StatsSelector.NationStats> {
-    private static final Comparator<StatsSelector.NationStats> COMPARATOR =
+public class NationStatsOrdering implements Ordering<NationStats> {
+    private static final Comparator<NationStats> COMPARATOR =
             Comparator
-                    .comparingInt(StatsSelector.NationStats::gold).reversed()
-                    .thenComparing(Comparator.comparingInt(StatsSelector.NationStats::silver).reversed())
-                    .thenComparing(Comparator.comparingInt(StatsSelector.NationStats::bronze).reversed())
-                    .thenComparing(Comparator.comparingInt(StatsSelector.NationStats::total).reversed())
-                    .thenComparing(s -> s.nation().value());
+                    .comparingInt(NationStats::gold).reversed()
+                    .thenComparing(Comparator.comparingInt(NationStats::silver).reversed())
+                    .thenComparing(Comparator.comparingInt(NationStats::bronze).reversed())
+                    .thenComparing(Comparator.comparingInt(NationStats::total).reversed())
+                    .thenComparing(s -> s.nation().nationCode());
 
     @Override
-    public @NotNull List<StatsSelector.NationStats> sort(@NotNull List<StatsSelector.NationStats> input) {
+    public @NotNull List<NationStats> sort(@NotNull List<NationStats> input) {
         return input.stream().sorted(COMPARATOR).toList();
     }
 }

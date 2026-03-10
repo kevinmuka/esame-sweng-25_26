@@ -5,19 +5,19 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Comparator;
 import java.util.List;
 
-public class SportByMedalOrdering implements Ordering<SportSelector.MedalEntry> {
-    private static final Comparator<SportSelector.MedalEntry> COMPARATOR =
+public class SportByMedalOrdering implements Ordering<MedalEntry> {
+    private static final Comparator<MedalEntry> COMPARATOR =
             Comparator
-                    .comparingInt((SportSelector.MedalEntry e) -> switch (e.medalType()) {
+                    .comparingInt((MedalEntry e) -> switch (e.medalType()) {
                         case ORO -> 0;
                         case ARGENTO -> 1;
                         case BRONZO -> 2;
                     })
-                    .thenComparing(e -> e.nation().value())
-                    .thenComparing(SportSelector.MedalEntry::raceId);
+                    .thenComparing(e -> e.nation().nationCode())
+                    .thenComparing(MedalEntry::raceId);
 
     @Override
-    public @NotNull List<SportSelector.MedalEntry> sort(@NotNull List<SportSelector.MedalEntry> input) {
+    public @NotNull List<MedalEntry> sort(@NotNull List<MedalEntry> input) {
         return input.stream().sorted(COMPARATOR).toList();
     }
 }

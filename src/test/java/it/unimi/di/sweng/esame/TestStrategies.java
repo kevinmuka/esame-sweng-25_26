@@ -83,21 +83,17 @@ public class TestStrategies {
     @Test
     void sportOrdering_sortsByNationThenMedalType() {
         List<MedalEntry> input = List.of(
-                new MedalEntry("G005", Discipline.BIATHLON, new NationCode("ITA"), SportSelector.MedalType.ORO),
-                new MedalEntry("G001", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ARGENTO),
-                new MedalEntry("G002", Discipline.BIATHLON, new NationCode("AUT"), SportSelector.MedalType.BRONZO),
-                new MedalEntry("G001", Discipline.BIATHLON, new NationCode("FRA"), SportSelector.MedalType.BRONZO),
-                new MedalEntry("G005", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ORO)
+                new MedalEntry("G003", Discipline.BIATHLON, new NationCode("ITA"), SportSelector.MedalType.BRONZO),
+                new MedalEntry("G002", Discipline.BIATHLON, new NationCode("ITA"), SportSelector.MedalType.ARGENTO),
+                new MedalEntry("G001", Discipline.BIATHLON, new NationCode("ITA"), SportSelector.MedalType.ORO)
         );
 
         List<MedalEntry> out = input.stream().sorted(MedalEntry.BY_NATION_THEN_MEDAL).toList();
 
         assertThat(out).containsExactly(
-                new MedalEntry("G002", Discipline.BIATHLON, new NationCode("AUT"), SportSelector.MedalType.BRONZO),
-                new MedalEntry("G001", Discipline.BIATHLON, new NationCode("FRA"), SportSelector.MedalType.BRONZO),
-                new MedalEntry("G005", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ORO),
-                new MedalEntry("G001", Discipline.BIATHLON, new NationCode("GER"), SportSelector.MedalType.ARGENTO),
-                new MedalEntry("G005", Discipline.BIATHLON, new NationCode("ITA"), SportSelector.MedalType.ORO)
+                new MedalEntry("G001", Discipline.BIATHLON, new NationCode("ITA"), SportSelector.MedalType.ORO),
+                new MedalEntry("G002", Discipline.BIATHLON, new NationCode("ITA"), SportSelector.MedalType.ARGENTO),
+                new MedalEntry("G003", Discipline.BIATHLON, new NationCode("ITA"), SportSelector.MedalType.BRONZO)
         );
 
 

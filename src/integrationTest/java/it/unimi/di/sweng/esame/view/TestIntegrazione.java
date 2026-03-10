@@ -101,6 +101,34 @@ public class TestIntegrazione {
         verifyThat(errorMessage, hasText(expectedError));
     }
 
+    @ParameterizedTest()
+    @CsvSource(delimiter = '|', textBlock = """
+          ' '            | IT;GER;FRA |  formato gara non valido
+          ''             | IT;GER;FRA |  formato gara non valido
+          'G001,'        | IT;GER;FRA |  formato gara non valido
+          ',SNOWBOARD'   | IT;GER;FRA |  formato gara non valido
+          G002,Biathlon  | ITA;GER;,FRA  | formato medaglie non valido
+          """
+    )
+    public void testInserisciErroriParsing(String t1, String t2, String expectedError, FxRobot robot) {
+        inserisci(t1, t2, robot);
+        verifyThat(errorMessage, hasText(expectedError));
+    }
+
+    @ParameterizedTest()
+    @CsvSource(delimiter = '|', textBlock = """
+          G001,SNOWBOARD | ;GER;FRA |  configurazione podio non valida
+          G001,SNOWBOARD | ITA,ITA,ITA,ITA;GER; |  configurazione podio non valida
+          G001,SNOWBOARD | ITA,ITA;GER;FRA |  configurazione podio non valida
+          G001,SNOWBOARD | ITA;GER,USA;FRA |  configurazione podio non valida
+          G001,SNOWBOARD | IT;GER;FRA |  sigla nazione non valida
+          """
+    )
+    public void testInserisciErroriRiflessiDalModel(String t1, String t2, String expectedError, FxRobot robot) {
+        inserisci(t1, t2, robot);
+        verifyThat(errorMessage, hasText(expectedError));
+    }
+
     // TEST UTILITY FUNCTIONS
     private void inserisci(@NotNull String f1, @NotNull String f2, @NotNull FxRobot robot) {
         robot.doubleClickOn(input.text1);

@@ -22,17 +22,21 @@ public class SportSelector implements DataSelector<Race, MedalEntry> {
             if (race.discipline() != targetDiscipline) {
                 continue;
             }
-            for (NationCode nation : race.podium().gold()) {
-                out.add(new MedalEntry(race.raceId(), race.discipline(), nation, MedalEntry.MedalType.ORO));
-            }
-            for (NationCode nation : race.podium().silver()) {
-                out.add(new MedalEntry(race.raceId(), race.discipline(), nation, MedalEntry.MedalType.ARGENTO));
-            }
-            for (NationCode nation : race.podium().bronze()) {
-                out.add(new MedalEntry(race.raceId(), race.discipline(), nation, MedalEntry.MedalType.BRONZO));
-            }
+            addEntries(out, race, race.podium().gold(), MedalEntry.MedalType.ORO);
+            addEntries(out, race, race.podium().silver(), MedalEntry.MedalType.ARGENTO);
+            addEntries(out, race, race.podium().bronze(), MedalEntry.MedalType.BRONZO);
         }
         return out;
     }
 
+    private static void addEntries(
+            @NotNull List<MedalEntry> out,
+            @NotNull Race race,
+            @NotNull List<NationCode> nations,
+            @NotNull MedalEntry.MedalType medalType
+    ) {
+        for (NationCode nation : nations) {
+            out.add(new MedalEntry(race.raceId(), race.discipline(), nation, medalType));
+        }
+    }
 }

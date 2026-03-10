@@ -23,22 +23,16 @@ public class SportSelector implements DataSelector<MedalEntry> {
                 continue;
             }
             for (NationCode nation : race.podium().gold()) {
-                out.add(new MedalEntry(race.raceId(), race.discipline(), nation, MedalType.ORO));
+                out.add(new MedalEntry(race.raceId(), race.discipline(), nation, MedalEntry.MedalType.ORO));
             }
             for (NationCode nation : race.podium().silver()) {
-                out.add(new MedalEntry(race.raceId(), race.discipline(), nation, MedalType.ARGENTO));
+                out.add(new MedalEntry(race.raceId(), race.discipline(), nation, MedalEntry.MedalType.ARGENTO));
             }
             for (NationCode nation : race.podium().bronze()) {
-                out.add(new MedalEntry(race.raceId(), race.discipline(), nation, MedalType.BRONZO));
+                out.add(new MedalEntry(race.raceId(), race.discipline(), nation, MedalEntry.MedalType.BRONZO));
             }
         }
         return out;
-    }
-
-    public enum MedalType {
-        ORO,
-        ARGENTO,
-        BRONZO
     }
 
 }

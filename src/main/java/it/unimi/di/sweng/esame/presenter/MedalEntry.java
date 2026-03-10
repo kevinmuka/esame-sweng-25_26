@@ -10,30 +10,32 @@ public record MedalEntry(
         @NotNull String raceId,
         @NotNull Discipline discipline,
         @NotNull NationCode nation,
-        @NotNull SportSelector.MedalType medalType
+        @NotNull MedalEntry.MedalType medalType
 ) {
     public static final Comparator<MedalEntry> BY_NATION_THEN_MEDAL =
             Comparator
                     .comparing((MedalEntry e) -> e.nation().nationCode())
-                    .thenComparingInt(e -> switch (e.medalType()) {
-                        case ORO -> 0;
-                        case ARGENTO -> 1;
-                        case BRONZO -> 2;
-                    })
+                    .thenComparingInt(e -> e.medalType().rank())
                     .thenComparing(MedalEntry::raceId);
 
     public static final Comparator<MedalEntry> BY_MEDAL_THEN_NATION =
             Comparator
-                    .comparingInt((MedalEntry e) -> switch (e.medalType()) {
-                        case ORO -> 0;
-                        case ARGENTO -> 1;
-                        case BRONZO -> 2;
-                    })
+                    .comparingInt((MedalEntry e) -> e.medalType().rank())
                     .thenComparing(e -> e.nation().nationCode())
                     .thenComparing(MedalEntry::raceId);
 
     @Override
     public @NotNull String toString() {
         return "%s %s %s".formatted(nation.nationCode(), medalType, raceId);
+    }
+
+    public enum MedalType {
+        ORO,
+        ARGENTO,
+        BRONZO;
+
+        int rank() {
+            return ordinal();
+        }
     }
 }

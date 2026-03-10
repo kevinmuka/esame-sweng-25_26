@@ -19,31 +19,33 @@ public class MyInputPresenter implements InputPresenter {
     @Override
     public void action1(@NotNull String text, @NotNull String text1) {
         try {
-            // Parse first field
-            String[] parts = text.split(",", -1);
-            if (parts.length != 2 || parts[0].isBlank() || parts[1].isBlank()) {
-                throw new IllegalArgumentException("formato gara non valido");
-            }
-            String raceId = parts[0];
-            Discipline discipline = Discipline.fromString(parts[1]);
-
-            // Parse second field
-            String[] medals = text1.split(";", -1);
-            if (medals.length != 3) {
-                throw new IllegalArgumentException("formato medaglie non valido");
-            }
-            List<NationCode> gold = parseGroup(medals[0]);
-            List<NationCode> silver = parseGroup(medals[1]);
-            List<NationCode> bronze = parseGroup(medals[2]);
-
-            Podium podium = new Podium(gold, silver, bronze);
-            Race race = new Race(raceId, discipline, podium);
-
-            model.insertRace(race);
+            RaceData raceData = parseRaceField(text);
+            Podium podium = parsePodiumField(text1);
+            model.insertRace(new Race(raceData.raceId(), raceData.discipline(), podium));
             view.showSuccess();
         } catch (IllegalArgumentException e) {
             view.showError(e.getMessage());
         }
+    }
+
+    private static @NotNull RaceData parseRaceField(@NotNull String raceField) {
+        String[] parts = raceField.split(",", -1);
+        if (parts.length != 2 || parts[0].isBlank() || parts[1].isBlank()) {
+            throw new IllegalArgumentException("formato gara non valido");
+        }
+        return new RaceData(parts[0], Discipline.fromString(parts[1]));
+    }
+
+    private static @NotNull Podium parsePodiumField(@NotNull String podiumField) {
+        String[] medals = podiumField.split(";", -1);
+        if (medals.length != 3) {
+            throw new IllegalArgumentException("formato medaglie non valido");
+        }
+        return new Podium(
+                parseGroup(medals[0]),
+                parseGroup(medals[1]),
+                parseGroup(medals[2])
+        );
     }
 
     private static @NotNull List<NationCode> parseGroup(@NotNull String group) {
@@ -58,5 +60,8 @@ public class MyInputPresenter implements InputPresenter {
                 .map(String::trim)
                 .map(NationCode::new)
                 .toList();
+    }
+
+    private record RaceData(@NotNull String raceId, @NotNull Discipline discipline) {
     }
 }

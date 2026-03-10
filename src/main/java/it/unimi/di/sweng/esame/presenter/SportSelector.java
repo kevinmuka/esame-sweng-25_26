@@ -16,7 +16,7 @@ public class SportSelector implements DataSelector<Race, MedalEntry> {
     }
 
     @Override
-    public @NotNull List<MedalEntry> select(@NotNull List<Race> input) {
+    public @NotNull List<MedalEntry> apply(@NotNull List<Race> input) {
         List<MedalEntry> out = new ArrayList<>();
         for (Race race : input) {
             if (race.discipline() != targetDiscipline) {

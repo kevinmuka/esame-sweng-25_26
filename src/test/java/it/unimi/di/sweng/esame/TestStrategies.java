@@ -36,7 +36,7 @@ public class TestStrategies {
                 )
         );
 
-        List<MedalEntry> out = sut.select(List.of(biathlon, snowboard));
+        List<MedalEntry> out = sut.apply(List.of(biathlon, snowboard));
 
         assertThat(out).containsExactlyInAnyOrder(
                 new MedalEntry("G001", Discipline.BIATHLON, new NationCode("ITA"), MedalEntry.MedalType.ORO),
@@ -69,7 +69,7 @@ public class TestStrategies {
                 )
         );
 
-        List<NationStats> out = sut.select(List.of(r1, r2));
+        List<NationStats> out = sut.apply(List.of(r1, r2));
 
         assertThat(out).contains(
                 new NationStats(new NationCode("ITA"), 2, 2, 0, 0),

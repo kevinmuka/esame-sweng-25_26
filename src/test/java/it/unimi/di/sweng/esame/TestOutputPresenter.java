@@ -22,7 +22,7 @@ public class TestOutputPresenter {
         when(view.size()).thenReturn(5);
 
         DataSelector<Race, String> selector = mock();
-        when(selector.select(state)).thenReturn(List.of("b", "a"));
+        when(selector.apply(state)).thenReturn(List.of("b", "a"));
         Comparator<String> comparator = mock();
         when(comparator.compare("a", "b")).thenReturn(-1);
         when(comparator.compare("b", "a")).thenReturn(1);
@@ -39,6 +39,7 @@ public class TestOutputPresenter {
 
         sut.update(subject, state);
 
+        verify(selector).apply(state);
         verify(view).set(0, "G001");
         verify(view).set(1, "G002");
         verify(view).set(2, "");

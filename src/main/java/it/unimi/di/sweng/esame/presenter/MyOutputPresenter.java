@@ -30,7 +30,7 @@ public class MyOutputPresenter<T> implements Observer<List<Race>> {
 
     @Override
     public void update(@NotNull Observable<List<Race>> subject, @NotNull List<Race> state) {
-        List<String> rows = selector.select(state).stream()
+        List<String> rows = selector.apply(state).stream()
                 .sorted(ordering)
                 .map(formatter)
                 .toList();

@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class StatsSelector implements DataSelector<Race, NationStats> {
     @Override
-    public @NotNull List<NationStats> select(@NotNull List<Race> input) {
+    public @NotNull List<NationStats> apply(@NotNull List<Race> input) {
         Map<NationCode, MutableStats> byNation = new HashMap<>();
 
         for (Race race : input) {
